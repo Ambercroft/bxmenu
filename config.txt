@@ -1,0 +1,34 @@
+// Config file for **exhale** settings
+// Unless you are using the program for a modified menu
+// you should not have to edit this file.
+
+// Where is the directory : only one directory allowed
+prgm:/prgms/testprgm
+
+
+// These are the basic attributes for displaying, 
+// which can be restricted by the individual display list
+
+// Attributes that the menu will allow
+// attr:xwrxwrxwr   -> format is owner group other, o if not allowed 
+attr:dxoooooooo
+
+// Types to disallow in the menu
+// type!:*,*,*...  -> format 
+// Max list length is 20, set in exhale.h
+typ!: .* *.ico *.wma *~ c*c
+
+// Types to allow in the menu
+// type:*,*,*...  -> format
+// type:*   -> this will allow anything but the list of disallowed
+// type:.jpg -> this will only allow *.jpg in list
+// Max list length is 20, set in exhale.h
+type: * *.txt *.jpg
+
+// This file will be user generated. What files does the user want
+// from what is available.
+// Max list length is 100(to be increased for release), set in exhale.h
+
+user:display.list
+
+END :
