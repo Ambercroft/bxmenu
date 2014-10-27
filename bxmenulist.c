@@ -1,19 +1,18 @@
 // XRT Window Manager link list
 //
-// Copyright 2008/05/16
-// Bob Wickson XRT Corporation
+// Copyright Bob Wickson 2008/05/16
 //
 // exhale - Window Manager
 
 
-#include "exhale.h"
+#include "bxmenu.h"
 #include <dirent.h>
 #include <sys/types.h>
 #include <stdio.h>
 #include <stddef.h>
 #include <sys/stat.h>
 
-#include "exhalelist.h"
+#include "bxmenulist.h"
 
 // Initailize the list
 

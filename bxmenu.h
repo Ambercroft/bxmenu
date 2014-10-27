@@ -2,7 +2,6 @@
 //
 // Copyright 2008/06/07
 // Bob Wickson
-// XRT Corporation
 //
 // exhale - Windowmanager
 
@@ -36,8 +35,8 @@ typedef struct NODE_DESC_s {
 #include</usr/include/X11/Xos.h>
 #include</usr/include/X11/Xatom.h>
 
-#include "exhalelist.h"
-#include "exhaleconf.h"
+#include "bxmenulist.h"
+#include "bxmenuconf.h"
 
 int load_config();
 int checkme();

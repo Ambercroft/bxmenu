@@ -1,21 +1,20 @@
 // XRT Window Manager link list 
 //
-// Copyright 2008/05/16
-// Bob Wickson XRT Corporation
+// Copyright Bob Wickson 2008/05/16
 //
 // exhale - Window Manager
 
 // Routines herein  configure base dir and files to load
 
 
-#include "exhale.h"
+#include "bxmenu.h"
 #include <dirent.h>
 #include <sys/types.h>
 #include <stdio.h>
 #include <stddef.h>
 #include <sys/stat.h>
 
-#include "exhaleconf.h"
+#include "bxmenuconf.h"
 int load_config(char * menudir){
   // menudir is really the dir the config file is in
   // load the config file for this menu

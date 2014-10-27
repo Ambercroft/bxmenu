@@ -3,6 +3,7 @@
 // you should not have to edit this file.
 
 // Where is the directory : only one directory allowed
+// This is the directory that the menu items are put.
 prgm:/prgms/testprgm
 
 
@@ -22,7 +23,7 @@ typ!: .* *.ico *.wma *~ c*c
 // type:*,*,*...  -> format
 // type:*   -> this will allow anything but the list of disallowed
 // type:.jpg -> this will only allow *.jpg in list
-// Max list length is 20, set in exhale.h
+// Max list length is 20, set in bxmenu.h
 type: * *.txt *.jpg
 
 // This file will be user generated. What files does the user want

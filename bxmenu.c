@@ -1,11 +1,10 @@
 // XRT Window Manager Main
 //
 // Copyright Bob Wickson 2012/01/01
-// XRT Corporation
 //
 // exhale - Window Manager
 
-#include "exhale.h"
+#include "bxmenu.h"
 int parse_to_run(char *,char ** );
 
 
@@ -311,7 +310,7 @@ int main(int argc, char **argv){
           do{
             runme[count] = list->name[count-mcount];
           } while(runme[count++] != '\0');
-// if the file is a directory then run exhalemenu again
+// if the file is a directory then run bxmenu again
 // else close up everything and run program
 //debug//	  
           printf("Checking if the name is executable or a .desktop file\n");

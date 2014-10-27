@@ -1,7 +1,6 @@
 // XRT Window Manager link list
 //
-// Copyright 2008/05/16
-// Bob Wickson XRT Corporation
+// Copyright Bob Wickson 2008/05/16
 //
 // exhale - Window Manager
 
