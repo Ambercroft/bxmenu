@@ -376,6 +376,8 @@ int main(int argc, char **argv){
 
 int parse_to_run(char * torun,char * newargv[]){
   int x = 0;
+  int y = 0;
+  int z = 0;
   // this finds the end of the exec file name
   while((torun[x] != '\0') && (torun[x] != ' ')){
     x++;
@@ -384,10 +386,26 @@ int parse_to_run(char * torun,char * newargv[]){
     // this indicates that there are parameters
     torun[x] = '\0'; // stop the file name at this point
 // debug this !! must capture the parameters !!
+// this is not the end of the string so copy the rest to newarg[]
+// -- this gives access to the parms but maybe not useable
+    while(torun[x] !=  '\0'){
+      if (torun[x] == ' '){
+        newargv[y][z] = '\0';
+        y++;
+        x++;
+        z = 0;
+      } else {
+        newargv[y][z]=torun[x];
+        z++;
+        x++;
+      }
+    }
+    newargv[y][z] = '\0';
+
 
     return 0; // all is good with parameters  
   } else if ( torun[x] == '\0') {
-    // there is no parameters evident
+    // there are no parameters evident
     return 0; // all is good
   } else {
     return 1; // we should not get here
