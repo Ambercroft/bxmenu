@@ -5,7 +5,7 @@
 // exhale - Window Manager
 
 #include "bxmenu.h"
-int parse_to_run(char *,char ** );
+int parse_to_run(char *,char **,int );
 
 
 int main(int argc, char **argv){
@@ -43,23 +43,34 @@ int main(int argc, char **argv){
   int count = 0;
   int mcount = 0;
   int x = 0;
+  // need something to store the parameter list
+  // max size will be equal to the max line input size 
+  // if the input is larger (parms from file) the input will be truncated
 
+  int maxk = 512;
+  char *argmem = NULL; 
+  argmem = malloc( sizeof(char)* maxk );
+  for(x=0; x< maxk; x++){
+    argmem[x] = '\0';
+  }
+
+ 
   printf(" Copyright 2014/04/04 Compiled on %s\n",__DATE__);
 
   // Note when menud is not '\0' initiated then weird things happen
-  char menud[256];
+  char menud[maxk];
   count = 0;
-  for (count =0;count<256;menud[count++]='\0'){}
+  for (count =0;count<maxk;menud[count++]='\0'){}
 
   // So do the same for runme
-  char runme[(256+40)];// menud size plus some for the file to execute
+  char runme[(maxk+40)];// menud size plus some for the file to execute
   count = 0;
-  for (count =0;count<(256+40);runme[count++]='\0'){}
+  for (count =0;count<(maxk+40);runme[count++]='\0'){}
 
   // So do the same for torun 
-  char torun[(256)];// name to actually execute: no parm
+  char torun[(maxk)];// name to actually execute: no parm
   count = 0;
-  for (count =0;count<(256);torun[count++]='\0'){}
+  for (count =0;count<(maxk);torun[count++]='\0'){}
 
   int exme = 0;
 
@@ -328,19 +339,28 @@ int main(int argc, char **argv){
               x++;
               }
           }
-              // move the declarations to a more sensible place.
-              //char *newargv[] = { NULL, "hello", "world", NULL };
-             char *newargv[] = { "  \n",NULL,NULL };
-              char *newenviron[] = { NULL };
-          //parse the run parameters
-          parse_to_run(torun,newargv);
- 
 // debug //
-          printf("name to run is  ->%s<-\n",torun);
+          printf("name to run before parsing is  ->%s<-\n",torun);
+          // move the declarations to a more sensible place.
+          char *newargv[maxk];
+int wq =0;
+for (wq=0; wq<maxk; wq++){
+         newargv[wq] = 0;
+}
+          newargv[0] = &argmem[0];
+
+          //parse the run parameters, maxk is max parameters
+          parse_to_run(torun,newargv,maxk);
+
+// debug // what is the list of pointers 
+//for (wq=0; wq<maxk && wq <10 ; wq++){
+//	printf("wq = %d [ newargv = %s ]. \n",wq,newargv[wq]);
+//}
+
+// debug //
+          printf(" ][ name to run is  ->%s<-\n",torun);
           
-         //execvp(torun,NULL);
-         execvp(torun,newargv);
-         // execve(torun, newargv, newenviron);
+          execvp(torun,newargv);
           perror("execvp");
 // debug //
           printf(" If the file was not executable then we made it here.\n");
@@ -374,10 +394,11 @@ int main(int argc, char **argv){
 // End of main loop	
 ///////////////////////////////////////////////////////////////////////////////
 
-int parse_to_run(char * torun,char * newargv[]){
+int parse_to_run(char * torun,char ** newargv, int maxp){
   int x = 0;
   int y = 0;
-  int z = 0;
+//  int z = 0;
+
   // this finds the end of the exec file name
   while((torun[x] != '\0') && (torun[x] != ' ')){
     x++;
@@ -386,25 +407,46 @@ int parse_to_run(char * torun,char * newargv[]){
     // this indicates that there are parameters
     torun[x] = '\0'; // stop the file name at this point
 // debug this !! must capture the parameters !!
-// this is not the end of the string so copy the rest to newarg[]
+// this is not the end of the string so copy the rest to newargv[]
 // -- this gives access to the parms but maybe not useable
+    x++;
+    printf("torun left over = %s.\n",&torun[x]);
+    // this is for the first param
+    newargv[y] = &torun[0];
+    y++;
+    newargv[y]=&torun[x];
+    y++;
+    x++;
+    // this is for second+ parm
+//may not give correct results if more than 1 ' ' in a row
     while(torun[x] !=  '\0'){
       if (torun[x] == ' '){
-        newargv[y][z] = '\0';
-        y++;
+        torun[x] = '\0';
+        if ( y > maxp ) {
+          // max parameters exceeded, line has been truncated
+          return 1;
+        }
         x++;
-        z = 0;
+        newargv[y]=&torun[x];
+        y++;
       } else {
-        newargv[y][z]=torun[x];
-        z++;
         x++;
       }
     }
-    newargv[y][z] = '\0';
-
+    if (y > maxp){
+      // max parameters exceeded, line is truncated
+      return 1;
+    }
+ 
+// debug //
+//    for (z=0; z<10; z++){
+//      printf(" ][ after parse > newargv[%d]=%s \n",z,newargv[z]);
+//    }
 
     return 0; // all is good with parameters  
   } else if ( torun[x] == '\0') {
+    newargv[0]= '\0';
+    printf(" ][ (should be empty here) what is newargv now = %s.\n",newargv[0]);
     // there are no parameters evident
     return 0; // all is good
   } else {
